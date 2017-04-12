@@ -33,6 +33,8 @@ const replyMessage = (message) => {
     }
 
     if (result.action && result.action.slug === 'podcast' && result.action.done) {
+      console.log('The sort is: ', result.getMemory('sort'))
+      console.log('The datetime is: ', result.getMemory('datetime'))
       podcast(result.getMemory('sort').raw, result.getMemory('datetime').raw)
         .then(res => {
           message.addReply(res)
