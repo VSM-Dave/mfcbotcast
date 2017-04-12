@@ -32,17 +32,6 @@ const replyMessage = (message) => {
       console.log('The conversation action is: ', result.action.slug)
     }
 
-    if (result.action && result.action.slug === 'podcast' && result.action.done) {
-      console.log('The sort is: ', result.getMemory('sort'))
-      console.log('The datetime is: ', result.getMemory('datetime'))
-
-      podcast(result.getMemory('sort'), result.getMemory('datetime'))
-        .then(res => {
-          message.addReply(res)
-          message.reply()
-        })
-    }
-
     // If there is not any message return by Recast.AI for this current conversation
     if (!result.replies.length) {
       message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
@@ -55,6 +44,16 @@ const replyMessage = (message) => {
     message.reply()
     .then(() => {
       // Do some code after sending messages
+      if (result.action && result.action.slug === 'podcast' && result.action.done) {
+        console.log('The sort is: ', result.getMemory('sort'))
+        console.log('The datetime is: ', result.getMemory('datetime'))
+
+        podcast(result.getMemory('sort'), result.getMemory('datetime'))
+          .then(res => {
+            message.addReply(res)
+            message.reply()
+          })
+      }
     })
     .catch(err => {
       console.error('Error while sending message to channel', err)
