@@ -1,4 +1,6 @@
 const podcast = (sort, datetime) => {
+    let ep_sort
+    let ep_datetime
 
     if (sort) {
         ep_sort = sort.raw
