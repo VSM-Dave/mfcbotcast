@@ -4,6 +4,7 @@
  */
 
 const recastai = require('recastai')
+const podcast = require('./podcast')
 
 // This function is the core of the bot behaviour
 const replyMessage = (message) => {
@@ -29,6 +30,14 @@ const replyMessage = (message) => {
     */
     if (result.action) {
       console.log('The conversation action is: ', result.action.slug)
+    }
+
+    if (result.action && result.action.slug === 'podcast' && result.action.done) {
+      podcast(result.getMemory('sort').raw, result.getMemory('datetime').raw)
+        .then(res => {
+          message.addReply(res)
+          message.reply()
+        })
     }
 
     // If there is not any message return by Recast.AI for this current conversation
